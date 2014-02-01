@@ -1,5 +1,7 @@
 void renderRedMoon()
 {
+  float angle = gMoonPhase;///-mouseX*TWO_PI/width;
+  directionalLight(255,255,255,-sin(angle),0,cos(angle));
   //  if(mouseY > height/2)
 //    fill(0,0,100);
 //  else

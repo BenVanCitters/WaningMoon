@@ -5,8 +5,6 @@ PGraphics surface;
 void setup()
 {
   size(screenWidth,screenHeight, OPENGL);
-  //load a font?
-  textFont(loadFont("Univers-66.vlw"), 1.0);
   initLPD8();
 }
 
@@ -14,8 +12,7 @@ void draw()
 {
   background(100);
   noStroke();
-  float angle = gMoonPhase;///-mouseX*TWO_PI/width;
-  directionalLight(255,255,255,-sin(angle),0,cos(angle));
+  
   pushMatrix();
   translate(width/2,height/2);
   switch(gCurrentGraphicMode)
@@ -37,11 +34,15 @@ void draw()
   
   if(debug)
   {
+    fill(0);
+    rect(0,0,350,80);
+    hint(DISABLE_DEPTH_TEST);
+    textSize(22);    
+    String s = "frameRate: " + frameRate;
+    fill(255,0,0);
     stroke(255);
-    fill(255);
-    scale(75.0);
-    text("word", 150, 300); 
-    println("frameRate:" + frameRate);
+    text(s, 10,30);
+    hint(ENABLE_DEPTH_TEST);
   }
 //  println("frameRate:" + frameRate);
 }
