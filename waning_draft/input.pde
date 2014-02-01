@@ -6,8 +6,6 @@ import themidibus.*;
 // MIDI bus for parameter input via Akai LPD8
 MidiBus myBus;
 
-  float gLineSpread = 1000*1000;
-
 void initLPD8()
 {
    if (debug) MidiBus.list(); // List all available Midi devices on STDOUT. 
@@ -28,7 +26,14 @@ void keyPressed()
       break;
   }
 }
- 
+
+
+final int NO_GRAPHIC_MODE=0;
+final int RED_MOON_MODE=1;
+final int BLUE_MOON_MODE=2;
+final int RAIN_MODE=3;
+
+int gCurrentGraphicMode = NO_GRAPHIC_MODE;
 // MIDI Event handling
 void noteOn(int channel, int pad, int velocity) {
   // Receive a noteOn
@@ -40,8 +45,16 @@ void noteOn(int channel, int pad, int velocity) {
   }
   switch(pad){
     case 36:
-    gBlackOnWhite = !gBlackOnWhite;
-    
+      gCurrentGraphicMode = NO_GRAPHIC_MODE;
+      break;   
+    case 37:
+      gCurrentGraphicMode = RED_MOON_MODE;
+      break;   
+    case 38:
+      gCurrentGraphicMode = BLUE_MOON_MODE;
+      break;   
+    case 39:
+      gCurrentGraphicMode = RAIN_MODE;
       break;   
     default:
       break;   
@@ -60,6 +73,7 @@ void noteOff(int channel, int pad, int velocity) {
   }
 }
  
+float gMoonPhase = 0.f;
 void controllerChange(int channel, int number, int value) {
   // Receive a controllerChange
   if(debug) {
@@ -71,8 +85,8 @@ void controllerChange(int channel, int number, int value) {
    
   switch(number){
     case 1:  // = K1
-    println("askjhda");
-      gLineSpread = (value/.5f)*(value/.5f);
+      gMoonPhase = value*TWO_PI/128.f;
+      println("gMoonPhase = " + gMoonPhase);
       break;
     case 2: // = K2
       break;  
@@ -86,5 +100,3 @@ void controllerChange(int channel, int number, int value) {
       break;   
   } 
 }
-boolean gBlackOnWhite = false;
-

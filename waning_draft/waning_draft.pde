@@ -1,27 +1,49 @@
+import processing.opengl.*;
 
-
+XMLElement xml;
+PGraphics surface;
 void setup()
 {
-  size(500,500, P3D);
+  size(screenWidth,screenHeight, OPENGL);
+  //load a font?
+  textFont(loadFont("Univers-66.vlw"), 1.0);
   initLPD8();
 }
 
 void draw()
 {
-  background(0);
+  background(100);
   noStroke();
-  float angle = -mouseX*TWO_PI/width;
+  float angle = gMoonPhase;///-mouseX*TWO_PI/width;
   directionalLight(255,255,255,-sin(angle),0,cos(angle));
+  pushMatrix();
   translate(width/2,height/2);
-  sphereDetail(mouseY / 4);
-//  if(mouseY > height/2)
-//    fill(0,0,100);
-//  else
-//    fill(150,80,0);
-//rotateX(mouseX/330.f);
-//rotateZ(mouseX/100.f);
-
-scale(.5,1,1);
-
-  sphere(200);
+  switch(gCurrentGraphicMode)
+  {
+    case NO_GRAPHIC_MODE:
+      break;
+    case RED_MOON_MODE:
+      renderRedMoon();
+      break;
+    case BLUE_MOON_MODE:
+      break;
+    case RAIN_MODE:
+      break;
+     default: 
+  }
+  
+  
+  popMatrix();
+  
+  if(debug)
+  {
+    stroke(255);
+    fill(255);
+    scale(75.0);
+    text("word", 150, 300); 
+    println("frameRate:" + frameRate);
+  }
+//  println("frameRate:" + frameRate);
 }
+
+
