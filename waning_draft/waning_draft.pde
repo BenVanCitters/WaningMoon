@@ -3,6 +3,7 @@
 void setup()
 {
   size(500,500, P3D);
+  initLPD8();
 }
 
 void draw()
