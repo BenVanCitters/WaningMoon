@@ -5,7 +5,7 @@ import themidibus.*;
 // MIDI bus for parameter input via Akai LPD8
 MidiBus myBus;
 boolean debug=false;
-
+boolean positioningMode=false;
 void initLPD8()
 {
    if (debug) MidiBus.list(); // List all available Midi devices on STDOUT. 
@@ -24,6 +24,9 @@ void keyPressed()
     case 's':
       saveFrame("sreenCaptures/img-######.png");
       break;
+    case 'p':
+      positioningMode= !positioningMode;
+      println("positioning Mode " + (positioningMode?"enabled":"disabled"));
   }
 }
 
@@ -82,14 +85,10 @@ void noteOff(int channel, int pad, int velocity) {
 }
  
 float gMoonPhase = 0.f;
-float gULRad = 0.f;
-float gURRad = 0.f;
-float gLLRad = 0.f;
-float gLRRad = 0.f;
-float gMoonPos[] = new float[]{0.f,0.f,0.f};
-
+float gMoonPos[] = new float[]{521.15625f,378.09375f,372.0f};
 float[] gQuadRot = new float[]{0.f,0.f,0.f};
-float gQuadScale = 1.f;
+float gQuadScale = 298.65625f;
+final int MAX_DIAL_VAL = 127;
 void controllerChange(int channel, int number, int value) {
   // Receive a controllerChange
   if(debug) {
@@ -98,70 +97,63 @@ void controllerChange(int channel, int number, int value) {
     print(" - Number "+number);
     println(" - Value "+value);
   }
-   
-  switch(number){
-    case 1:  // = K1
-      gMoonPhase = value*TWO_PI/128.f;
-      println("gMoonPhase = " + gMoonPhase);
-      break;
-
-    case 2:  // = K2
-      gQuadRot[0] = value*TWO_PI/128.f;
-      println("gQuadRot = [" + gQuadRot[0] +","+ gQuadRot[1] +","+ gQuadRot[2] +"]" );
-      break;
-    case 3:  // = K3
-      gQuadRot[1] = value*TWO_PI/128.f;
-      println("gQuadRot = [" + gQuadRot[0] +","+ gQuadRot[1] +","+ gQuadRot[2] +"]" );
-      break;      
-    case 4:  // = K4
-      gQuadRot[2] = value*TWO_PI/128.f;
-      println("gQuadRot = [" + gQuadRot[0] +","+ gQuadRot[1] +","+ gQuadRot[2] +"]" );
-      break;  
-      
-    case 5:  // = K2
-      gMoonPos[0] = value*width/128.f;
-      println("gMoonPos = [" + gMoonPos[0] + "," + gMoonPos[1]+ "," + gMoonPos[2] + "]");
-      break;
-    case 6:  // = K3
-      gMoonPos[1] = value*height/128.f;
-      println("gMoonPos = [" + gMoonPos[0] + "," + gMoonPos[1]+ "," + gMoonPos[2] + "]");
-      break;      
-    case 7:  // = K3
-      gMoonPos[2] = value*height/128.f;
-      println("gMoonPos = [" + gMoonPos[0] + "," + gMoonPos[1]+ "," + gMoonPos[2] + "]");
-      break;
-    case 8: // = K8
-      gQuadScale = 1+value*300.f/128.f;
-      println("gQuadScale = " + gQuadScale);    
-      break;  
-
-//original control      
-//    case 2:  // = K2
-//      gMoonPos[0] = value*width/128.f;
-//      println("gMoonPhase.x = " + gMoonPos[0]);
-//      break;
-//    case 3:  // = K3
-//      gMoonPos[1] = value*height/128.f;
-//      println("gMoonPhase.y = " + gMoonPos[1]);
-//      break;      
-//      
-//    case 5: // = K5
-//      gULRad = value*height/128.f;
-//      println("gULRad = " + gULRad);
-//      break;  
-//    case 6: // = K6
-//      gURRad = value*height/128.f;
-//      println("gURRad = " + gURRad);    
-//      break;  
-//    case 7: // = K7
-//      gLLRad = value*height/128.f;
-//      println("gLLRad = " + gLLRad);    
-//      break;  
-//    case 8: // = K8
-//      gLRRad = value*height/128.f;
-//      println("gLRRad = " + gLRRad);    
-//      break;  
-    default:
-      break;   
+  if(!positioningMode)
+  {
+    switch(number)
+    {
+      case 1:  // = K1 //.80-5.7 - used to be 
+        gMoonPhase = .70f+value*(5.63f-.70f)/MAX_DIAL_VAL;
+        println("gMoonPhase = " + gMoonPhase);
+        break;
+      default:
+        break;   
+    } 
+  }
+  else
+  { 
+    //controls for positioning the moon
+    switch(number)
+    {
+      case 2:  // = K2
+        gQuadRot[0] = value*TWO_PI/MAX_DIAL_VAL;
+        printProjectionDims();
+        break;
+      case 3:  // = K3
+        gQuadRot[1] = value*TWO_PI/MAX_DIAL_VAL;
+        printProjectionDims();
+        break;      
+      case 4:  // = K4
+        gQuadRot[2] = value*TWO_PI/MAX_DIAL_VAL;
+        printProjectionDims();
+        break;  
+        
+      case 5:  // = K2
+        gMoonPos[0] = value*surface.width/MAX_DIAL_VAL;
+        printProjectionDims();
+        break;
+      case 6:  // = K3
+        gMoonPos[1] = value*surface.height/MAX_DIAL_VAL;
+        printProjectionDims();
+        break;      
+      case 7:  // = K3
+        gMoonPos[2] = value*height/MAX_DIAL_VAL;
+        printProjectionDims();
+        break;
+      case 8: // = K8
+        gQuadScale = 1+value*300.f/MAX_DIAL_VAL;
+        printProjectionDims();
+        break;  
+  
+      default:
+        break;   
+    }
   } 
+}
+
+void printProjectionDims()
+{
+  println("\n===dims===");
+  println("gMoonPos = [" + gMoonPos[0] + "," + gMoonPos[1]+ "," + gMoonPos[2] + "]");
+  println("gQuadRot = [" + gQuadRot[0] +","+ gQuadRot[1] +","+ gQuadRot[2] +"]" );
+  println("gQuadScale = " + gQuadScale); 
 }

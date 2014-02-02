@@ -1,5 +1,6 @@
 void renderBlueMoon()
 {
+  surface.fill(255);
   surface.translate(surface.width/2,
                     surface.height/2);
   float angle = gMoonPhase;///-mouseX*TWO_PI/width;

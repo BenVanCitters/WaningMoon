@@ -1,14 +1,12 @@
-import processing.opengl.*;
-
-XMLElement xml;
 PGraphics surface;
 
+final int MOON_SIDE = 654;
 void setup()
 {
   size(screenWidth,screenHeight, P3D);
   initLPD8();
-  surface = createGraphics(height, height, P3D);
-  
+  surface = createGraphics(MOON_SIDE, MOON_SIDE, P3D);
+  initDrips();
   initFireCircle();
 }
 
@@ -16,7 +14,10 @@ void draw()
 {
   background(0);
   surface.beginDraw();
-  surface.background(100);
+  if(debug)
+    surface.background(0,255,0);
+  else
+    surface.background(0);
   surface.noStroke();
   
   surface.pushMatrix();
@@ -35,6 +36,7 @@ void draw()
       renderFireCircle();
       break;
     case RAIN_MODE:
+    renderRain();
       break;
      default: 
   }
@@ -99,39 +101,6 @@ void renderTextureToMain()
     }    
     endShape();  
   }  
-  popMatrix();
-}
-
-//this method uses points all on a plane to approx a 3D transform
-void oldrenderTextureToMain()
-{
-//  image(surface,0,0);
-  float rad = PI*3.f/4.f;
-  float UL[] = new float[]{gULRad*cos(rad),gULRad*sin(rad)};  
-  rad = PI*5.f/4.f;
-  float LL[] = new float[]{gLLRad*cos(rad),gLLRad*sin(rad)};
-  rad = PI*1.f/4.f;
-  float UR[] = new float[]{gURRad*cos(rad),gURRad*sin(rad)};
-  rad = PI*7.f/4.f;
-  float LR[] = new float[]{gLRRad*cos(rad),gLRRad*sin(rad)};
-
-
-  pushMatrix();
-  translate(gMoonPos[0],gMoonPos[1]);
-  noStroke();
-  textureMode(NORMALIZED);
-  beginShape(TRIANGLE_STRIP);
-  texture(surface);
-  
-  vertex(UL[0],UL[1],
-         0,0);
-  vertex(LL[0],LL[1],
-         0,1);
-  vertex(UR[0],UR[1],
-         1,0);
-  vertex(LR[0],LR[1],
-        1,1);
-  endShape();  
   popMatrix();
 }
 

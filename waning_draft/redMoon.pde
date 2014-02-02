@@ -2,11 +2,12 @@ final float sphereRadMultiplier = .4322916f;
 
 void renderRedMoon()
 {
+  surface.fill(255);
   surface.translate(surface.width/2,
                     surface.height/2);
   float angle = gMoonPhase;///-mouseX*TWO_PI/width;
-  surface.directionalLight(150,100,35,-sin(angle),0,cos(angle));
-
+//  surface.directionalLight(150,100,35,-sin(angle),0,cos(angle));
+surface.directionalLight(255,0,0,-sin(angle),0,cos(angle));
 //rotateX(mouseX/330.f);
 //rotateZ(mouseX/100.f);
 //scale(.5,1,1);
