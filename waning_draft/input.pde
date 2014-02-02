@@ -104,9 +104,9 @@ void noteOff(int channel, int pad, int velocity) {
 }
 float gBlackOut = 256.f;
 float gMoonPhase = 0.f;
-float gMoonPos[] = new float[]{536.0,391.0,399.0};
+float gMoonPos[] = new float[]{542.0,391.0,368.0};
 float[] gQuadRot = new float[]{6.2831855,0.0,0.0};
-float gQuadScale = 270.29135f;
+float gQuadScale = 301.0f;
 final int MAX_DIAL_VAL = 127;
 void controllerChange(int channel, int number, int value) {
   // Receive a controllerChange
