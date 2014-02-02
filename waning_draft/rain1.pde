@@ -1,5 +1,22 @@
 ArrayList<drop> drips;
 
+void renderRain()
+{
+    drawBack(color(0,0,100));
+  drawDrips();
+}
+
+void renderRain2()
+{
+    drawBack(color(0));
+  drawDrips();
+}
+
+void renderRain3()
+{
+    drawBack(color(100,100,100,2));
+  drawDrips();
+}
 
 void initDrips()
 {
@@ -10,21 +27,10 @@ void initDrips()
     makeNewDrip(false);
   }
 }
-//global drop stuff
-void renderRain()
-{
-  //deal with sound stuff
-//  float waveForm[] = in.mix.toArray();
-//  runningMaxAmp *= .99;
-//  float tmpMax = runningMaxAmp;
-//  float curMax = -10.0;
-//  for(int i = 0; i<waveForm.length; i++)
-//  {
-//    float wvVal = abs(waveForm[i]);
-//    curMax = max(curMax, wvVal);
-//    runningMaxAmp = max(runningMaxAmp,wvVal);  
-//  }
 
+//global drop stuff
+void drawDrips()
+{
   // update drips
   int removeCount = 0; //how many drips fell offscreen  
   float[] grav = {0.0,.70};
@@ -40,11 +46,9 @@ void renderRain()
       it.remove();      
     }
   }
-  //println(runningMaxAmp*5);
   
-//  float tmpDiff = runningMaxAmp/tmpMax;
   //draw stuff
-  drawBack(.1);
+
   int clr = color(220,220,255);
   fill(clr);
   stroke(clr);
@@ -52,7 +56,7 @@ void renderRain()
   float pct = 1.f;//mouseX*1.0f/width;
   for(drop d : drips)
   {
-    d.drawMe(pct);        
+    d.drawMe();        
   }
   
   //refresh offscreen drips
@@ -77,19 +81,14 @@ void makeNewDrip(boolean top)
                     )); 
 }
 
-void drawBack(float amp)
+void drawBack(int clr)
 {
-  //if(amp <= 0 || amp>= 1.0)
-//    println(amp);
-  float pct = mouseY * 1.0f / height;
-  int bclr = color(30,30,40,20*(1.2-amp));
-  int pclr = color(220,30,40,20*(1.2-amp));
-  int clr = lerpColor(bclr, pclr, pct);
-  surface.stroke(bclr);
+  float pct = 1.f;//mouseY * 1.0f / height;
+//  int clr = color(30,30,40,20*(1.2-amp));
   
 //  int clr = color(30,30,40,20*(1.2-amp));
-  surface.stroke(bclr);
-  surface.fill(bclr);
+  surface.stroke(clr);
+  surface.fill(clr);
   surface.rect(0,0,width,height);
   //background(clr);
 }
@@ -132,13 +131,11 @@ class drop
     }
   }
   
-  public void drawMe(float pct)
+  public void drawMe()
   {    
     if(isFlashing())
     {
-      int bclr = color(100,180,255);
-      int pclr = color(255,200,200);
-      int clr = lerpColor(bclr, pclr, pct);
+      int clr = color(100,180,255);;
       surface.stroke(clr);
       surface.strokeWeight(2);
       surface.strokeCap(ROUND);

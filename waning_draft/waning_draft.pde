@@ -1,6 +1,8 @@
 PGraphics surface;
 
 final int MOON_SIDE = 654;
+
+
 void setup()
 {
   size(screenWidth,screenHeight, P3D);
@@ -11,15 +13,21 @@ void setup()
   initLetter();
 }
 
+void defaultScreenClear()
+{
+  if(debug)
+    surface.background(0,255,0);
+  else
+    surface.background(0);  
+}
+
 void draw()
 {
   background(0);
   surface.beginDraw();
-  if(debug)
-    surface.background(0,255,0);
-  else
-    surface.background(0);
+
   surface.noStroke();
+
   
   surface.pushMatrix();
   
@@ -28,19 +36,33 @@ void draw()
     case NO_GRAPHIC_MODE:
       break;
     case RED_MOON_MODE:
+      defaultScreenClear();
       renderRedMoon();
       break;
     case BLUE_MOON_MODE:
+      defaultScreenClear();
       renderBlueMoon();
       break;
     case FIRE_MODE:
+      defaultScreenClear();
       renderFireCircle();
       break;
-    case RAIN_MODE:
+    case RAIN1_MODE:
       renderRain();
       break;
     case LETTER_MODE:
+      defaultScreenClear();
       renderLetter();
+      break;
+    case RAIN2_MODE:
+      renderRain2();
+      break;      
+    case RAIN3_MODE:
+      renderRain3();
+      break;    
+    case FIRE2_MODE:
+      defaultScreenClear();
+      renderFireSquare();
       break;
      default: 
   }
@@ -60,6 +82,11 @@ void draw()
     text("frameRate: " + frameRate, 10,30);
     hint(ENABLE_DEPTH_TEST);
   }
+  if(gLastGraphicMode != gCurrentGraphicMode)
+  {
+    defaultScreenClear();
+  }
+  gLastGraphicMode = gCurrentGraphicMode;
 }
 
 //uses a 3D-Based approach to map to a wall 

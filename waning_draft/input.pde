@@ -35,9 +35,13 @@ final int NO_GRAPHIC_MODE=0;
 final int RED_MOON_MODE=1;
 final int BLUE_MOON_MODE=2;
 final int FIRE_MODE=3;
-final int RAIN_MODE=4;
+final int RAIN1_MODE=4;
 final int LETTER_MODE=5;
+final int RAIN2_MODE=6;
+final int RAIN3_MODE=7;
+final int FIRE2_MODE=8;
 int gCurrentGraphicMode = NO_GRAPHIC_MODE;
+int gLastGraphicMode = NO_GRAPHIC_MODE;
 // MIDI Event handling
 void noteOn(int channel, int pad, int velocity) {
   // Receive a noteOn
@@ -47,31 +51,41 @@ void noteOn(int channel, int pad, int velocity) {
     print(" - Pad "+pad);
     println(" - Value: "+velocity);
   }
+  defaultScreenClear();
   switch(pad){
     case 36:
-      gCurrentGraphicMode = NO_GRAPHIC_MODE;
-      println("NO_GRAPHIC_MODE enabled");
-      break;   
+      gCurrentGraphicMode = BLUE_MOON_MODE;
+      println("BLUE_MOON_MODE enabled");
+      break;
     case 37:
       gCurrentGraphicMode = RED_MOON_MODE;
       println("RED_MOON_MODE enabled");
       break;   
     case 38:
-      gCurrentGraphicMode = BLUE_MOON_MODE;
-      println("BLUE_MOON_MODE enabled");
-      break;   
+      gCurrentGraphicMode = LETTER_MODE;     
+      println("LETTER_MODE enabled");
+      gLetterStartTime = millis();
+      break;      
     case 39:
       gCurrentGraphicMode = FIRE_MODE;
       println("FIRE_MODE enabled");
       break;
     case 40:
-      gCurrentGraphicMode = RAIN_MODE;     
-      println("RAIN_MODE enabled"); 
-      break;   
+      gCurrentGraphicMode = RAIN1_MODE;     
+      println("RAIN1_MODE enabled"); 
+      break;            
     case 41:
-      gCurrentGraphicMode = LETTER_MODE;     
-      println("LETTER_MODE enabled"); 
+       gCurrentGraphicMode = RAIN2_MODE;
+      println("RAIN2_MODE enabled");
       break;   
+    case 42:
+      gCurrentGraphicMode = RAIN3_MODE;     
+      println("RAIN3_MODE enabled"); 
+      break;
+    case 43:
+      gCurrentGraphicMode = FIRE2_MODE;     
+      println("FIRE2_MODE enabled"); 
+      break;
     default:
       break;   
   }
@@ -90,9 +104,9 @@ void noteOff(int channel, int pad, int velocity) {
 }
 float gBlackOut = 256.f;
 float gMoonPhase = 0.f;
-float gMoonPos[] = new float[]{521.15625f,378.09375f,372.0f};
-float[] gQuadRot = new float[]{0.f,0.f,0.f};
-float gQuadScale = 298.65625f;
+float gMoonPos[] = new float[]{701.0,417.0,507.0};
+float[] gQuadRot = new float[]{5.689499f,0.0f,0.0f};
+float gQuadScale = 194.70079f;
 final int MAX_DIAL_VAL = 127;
 void controllerChange(int channel, int number, int value) {
   // Receive a controllerChange
@@ -107,7 +121,7 @@ void controllerChange(int channel, int number, int value) {
     switch(number)
     {
       case 1:  // = K1 //.80-5.7 - used to be 
-        gMoonPhase = .70f+value*(5.63f-.70f)/MAX_DIAL_VAL;
+        gMoonPhase = 5.63f-value*(5.63f-.70f)/MAX_DIAL_VAL;
         println("gMoonPhase = " + gMoonPhase);
         break;
       case 8:
@@ -135,19 +149,19 @@ void controllerChange(int channel, int number, int value) {
         printProjectionDims();
         break;  
         
-      case 5:  // = K2
-        gMoonPos[0] = value*surface.width/MAX_DIAL_VAL;
+      case 5:  // = K2 xPos
+        gMoonPos[0] = 300+value*surface.width/MAX_DIAL_VAL;
         printProjectionDims();
         break;
-      case 6:  // = K3
+      case 6:  // = K3 yPos
         gMoonPos[1] = value*surface.height/MAX_DIAL_VAL;
         printProjectionDims();
         break;      
-      case 7:  // = K3
+      case 7:  // = K7 zpos
         gMoonPos[2] = value*height/MAX_DIAL_VAL;
         printProjectionDims();
         break;
-      case 8: // = K8
+      case 8: // = K8 scale
         gQuadScale = 1+value*300.f/MAX_DIAL_VAL;
         printProjectionDims();
         break;  

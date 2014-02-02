@@ -1,12 +1,13 @@
 PImage letterTex;
 void initLetter()
 {
-  letterTex = loadImage("images/letter.png");
+  letterTex = loadImage("images/handwritten.jpg");
 }
 
+long gLetterStartTime = 0;
 void renderLetter()
 {
-  float angle = gMoonPhase;///-mouseX*TWO_PI/width;
+  float angle = -(millis()-gLetterStartTime)/4000.f;///-mouseX*TWO_PI/width;
   surface.directionalLight(255,255,255,-sin(angle),0,cos(angle));
   surface.translate(surface.width/2,
                     surface.height/2);

@@ -1,5 +1,10 @@
 /*
-start with blue moon
+pre-show???
+fade/rotate to blue
+start with blue moon - full blue
+cue -kamaria shoulder move
+blue rain
+
 
 rain
 blue moon??
