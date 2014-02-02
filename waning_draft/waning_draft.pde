@@ -8,6 +8,7 @@ void setup()
   surface = createGraphics(MOON_SIDE, MOON_SIDE, P3D);
   initDrips();
   initFireCircle();
+  initLetter();
 }
 
 void draw()
@@ -36,7 +37,10 @@ void draw()
       renderFireCircle();
       break;
     case RAIN_MODE:
-    renderRain();
+      renderRain();
+      break;
+    case LETTER_MODE:
+      renderLetter();
       break;
      default: 
   }
@@ -72,7 +76,7 @@ void renderTextureToMain()
   scale(gQuadScale);
   noStroke();
   textureMode(NORMALIZED);
-
+tint(gBlackOut);
   //46 seems to be a reasonable tradeoff between performance and
   // appearance I'm getting ~13.9 fps worst case with P3D
   // openGL renders ~2fps if that.

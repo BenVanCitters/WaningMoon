@@ -36,6 +36,7 @@ final int RED_MOON_MODE=1;
 final int BLUE_MOON_MODE=2;
 final int FIRE_MODE=3;
 final int RAIN_MODE=4;
+final int LETTER_MODE=5;
 int gCurrentGraphicMode = NO_GRAPHIC_MODE;
 // MIDI Event handling
 void noteOn(int channel, int pad, int velocity) {
@@ -67,6 +68,10 @@ void noteOn(int channel, int pad, int velocity) {
       gCurrentGraphicMode = RAIN_MODE;     
       println("RAIN_MODE enabled"); 
       break;   
+    case 41:
+      gCurrentGraphicMode = LETTER_MODE;     
+      println("LETTER_MODE enabled"); 
+      break;   
     default:
       break;   
   }
@@ -83,7 +88,7 @@ void noteOff(int channel, int pad, int velocity) {
     println(" - Value "+velocity);
   }
 }
- 
+float gBlackOut = 256.f;
 float gMoonPhase = 0.f;
 float gMoonPos[] = new float[]{521.15625f,378.09375f,372.0f};
 float[] gQuadRot = new float[]{0.f,0.f,0.f};
@@ -104,6 +109,9 @@ void controllerChange(int channel, int number, int value) {
       case 1:  // = K1 //.80-5.7 - used to be 
         gMoonPhase = .70f+value*(5.63f-.70f)/MAX_DIAL_VAL;
         println("gMoonPhase = " + gMoonPhase);
+        break;
+      case 8:
+        gBlackOut = 256-value*256.f/MAX_DIAL_VAL;
         break;
       default:
         break;   

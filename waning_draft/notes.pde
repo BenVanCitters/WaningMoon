@@ -6,7 +6,7 @@ blue moon??
 blue back white snow rain??
 sex scene - more saturated firep
 
-
+add another flame - for chair scene
 
 ///////note file
 rain
