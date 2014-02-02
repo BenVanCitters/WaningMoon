@@ -68,19 +68,19 @@ void noteOn(int channel, int pad, int velocity) {
       break;      
     case 39:
       gCurrentGraphicMode = FIRE_MODE;
-      println("FIRE_MODE enabled");
+      println("Supernova/FIRE_MODE enabled");
       break;
     case 40:
       gCurrentGraphicMode = RAIN1_MODE;     
-      println("RAIN1_MODE enabled"); 
+      println("blue rain/RAIN1_MODE enabled"); 
       break;            
     case 41:
        gCurrentGraphicMode = RAIN2_MODE;
-      println("RAIN2_MODE enabled");
+      println("black rain/RAIN2_MODE enabled");
       break;   
     case 42:
       gCurrentGraphicMode = RAIN3_MODE;     
-      println("RAIN3_MODE enabled"); 
+      println("Muddled Rain RAIN3_MODE enabled"); 
       break;
     case 43:
       gCurrentGraphicMode = FIRE2_MODE;     
@@ -104,9 +104,9 @@ void noteOff(int channel, int pad, int velocity) {
 }
 float gBlackOut = 256.f;
 float gMoonPhase = 0.f;
-float gMoonPos[] = new float[]{701.0,417.0,507.0};
-float[] gQuadRot = new float[]{5.689499f,0.0f,0.0f};
-float gQuadScale = 194.70079f;
+float gMoonPos[] = new float[]{536.0,391.0,399.0};
+float[] gQuadRot = new float[]{6.2831855,0.0,0.0};
+float gQuadScale = 270.29135f;
 final int MAX_DIAL_VAL = 127;
 void controllerChange(int channel, int number, int value) {
   // Receive a controllerChange

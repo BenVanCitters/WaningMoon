@@ -8,13 +8,13 @@ void renderRain()
 
 void renderRain2()
 {
-    drawBack(color(0));
+    drawBack(color(0,110));
   drawDrips();
 }
 
 void renderRain3()
 {
-    drawBack(color(100,100,100,2));
+    drawBack(color(100,100,100,10));
   drawDrips();
 }
 

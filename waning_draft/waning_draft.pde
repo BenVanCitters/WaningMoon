@@ -6,6 +6,7 @@ final int MOON_SIDE = 654;
 void setup()
 {
   size(screenWidth,screenHeight, P3D);
+  noCursor();
   initLPD8();
   surface = createGraphics(MOON_SIDE, MOON_SIDE, P3D);
   initDrips();
@@ -51,7 +52,7 @@ void draw()
       renderRain();
       break;
     case LETTER_MODE:
-      defaultScreenClear();
+//      defaultScreenClear();
       renderLetter();
       break;
     case RAIN2_MODE:
@@ -67,6 +68,10 @@ void draw()
      default: 
   }
   surface.popMatrix();
+  if(positioningMode)
+  {
+    renderPositioningHelp();
+  }
   surface.endDraw();
   
   renderTextureToMain();
@@ -89,6 +94,23 @@ void draw()
   gLastGraphicMode = gCurrentGraphicMode;
 }
 
+void renderPositioningHelp()
+{
+  surface.hint(DISABLE_DEPTH_TEST);
+  surface.strokeWeight(3);
+  surface.pushMatrix();
+  surface.fill(0);
+  surface.stroke(0,255,0);
+  surface.rect(1,1,surface.width-2,surface.height-2);
+  surface.ellipse(surface.width/2,surface.height/2,surface.width,surface.height);
+  surface.line(0,surface.height/3,surface.width,surface.height/3);
+  surface.line(0,surface.height*2.f/3,surface.width,surface.height*2.f/3);
+  surface.line(surface.width/3,0,surface.width/3,surface.height);
+  surface.line(surface.width*2.f/3,0,surface.width*2.f/3,surface.height);
+
+  surface.popMatrix();
+}
+
 //uses a 3D-Based approach to map to a wall 
 //iteratively renders the surface to handle 
 //distortion 
@@ -109,6 +131,7 @@ tint(gBlackOut);
   // openGL renders ~2fps if that.
   int iCount = 46;//(int)(mouseX*600.f/width);
 //  println("iCount: " + iCount);
+
   
   //draws a normalized square mesh and textures it 
   // with our 'surface' graphics object
