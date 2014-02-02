@@ -31,8 +31,8 @@ void keyPressed()
 final int NO_GRAPHIC_MODE=0;
 final int RED_MOON_MODE=1;
 final int BLUE_MOON_MODE=2;
-final int RAIN_MODE=3;
-
+final int FIRE_MODE=3;
+final int RAIN_MODE=4;
 int gCurrentGraphicMode = NO_GRAPHIC_MODE;
 // MIDI Event handling
 void noteOn(int channel, int pad, int velocity) {
@@ -46,15 +46,23 @@ void noteOn(int channel, int pad, int velocity) {
   switch(pad){
     case 36:
       gCurrentGraphicMode = NO_GRAPHIC_MODE;
+      println("NO_GRAPHIC_MODE enabled");
       break;   
     case 37:
       gCurrentGraphicMode = RED_MOON_MODE;
+      println("RED_MOON_MODE enabled");
       break;   
     case 38:
       gCurrentGraphicMode = BLUE_MOON_MODE;
+      println("BLUE_MOON_MODE enabled");
       break;   
     case 39:
-      gCurrentGraphicMode = RAIN_MODE;
+      gCurrentGraphicMode = FIRE_MODE;
+      println("FIRE_MODE enabled");
+      break;
+    case 40:
+      gCurrentGraphicMode = RAIN_MODE;     
+      println("RAIN_MODE enabled"); 
       break;   
     default:
       break;   

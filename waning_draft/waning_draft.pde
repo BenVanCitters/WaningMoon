@@ -5,7 +5,7 @@ PGraphics surface;
 
 void setup()
 {
-  size(screenWidth,screenHeight, OPENGL);
+  size(screenWidth,screenHeight, P3D);
   initLPD8();
   surface = createGraphics(height, width, P3D);
   
@@ -32,6 +32,9 @@ void draw()
     case BLUE_MOON_MODE:
       renderBlueMoon();
       break;
+    case FIRE_MODE:
+      renderFireMoon();
+      break;
     case RAIN_MODE:
       break;
      default: 
@@ -54,21 +57,11 @@ void draw()
   }
 }
 
-
+//uses a 3D-Based approach to map to a wall 
+//iteratively renders the surface to handle 
+//distortion 
 void renderTextureToMain()
 {
-//  image(surface,0,0);
-float permR = height/2.f;
-  float rad = PI*3.f/4.f;
-  float UL[] = new float[]{permR*cos(rad),permR*sin(rad)};  
-  rad = PI*5.f/4.f;
-  float LL[] = new float[]{permR*cos(rad),permR*sin(rad)};
-  rad = PI*1.f/4.f;
-  float UR[] = new float[]{permR*cos(rad),permR*sin(rad)};
-  rad = PI*7.f/4.f;
-  float LR[] = new float[]{permR*cos(rad),permR*sin(rad)};
-
-
   pushMatrix();
   translate(gMoonPos[0],gMoonPos[1],gMoonPos[2]);
   
@@ -102,26 +95,7 @@ float permR = height/2.f;
              p[0],p[1]);        
     }    
     endShape();  
-  }
-  
-//  vertex(UR[0],UR[1],
-//         1,0);
-//  vertex(LR[0],LR[1],
-//        1,1);
-
-
-//   beginShape(TRIANGLE_STRIP);
-//  texture(surface);
-//  
-//  vertex(UL[0],UL[1],
-//         0,0);
-//  vertex(LL[0],LL[1],
-//         0,1);
-//  vertex(UR[0],UR[1],
-//         1,0);
-//  vertex(LR[0],LR[1],
-//        1,1);
-//  endShape();  
+  }  
   popMatrix();
 }
 
