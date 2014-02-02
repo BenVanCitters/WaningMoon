@@ -3,9 +3,6 @@ WaningMoon
 
 requires the following libraries:
 
-'themidibus' library availble here:
+'themidibus' library availble here: https://github.com/sparks/themidibus
 
-https://github.com/sparks/themidibus
-
-GSVideo:
-http://sourceforge.net/p/gsvideo/code/HEAD/tree/
+GSVideo Library: http://sourceforge.net/p/gsvideo/code/HEAD/tree/
