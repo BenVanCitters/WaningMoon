@@ -1,5 +1,9 @@
+final float sphereRadMultiplier = .4322916f;
+
 void renderRedMoon()
 {
+  surface.translate(surface.width/2,
+                    surface.height/2);
   float angle = gMoonPhase;///-mouseX*TWO_PI/width;
   surface.directionalLight(150,100,35,-sin(angle),0,cos(angle));
 
@@ -7,7 +11,8 @@ void renderRedMoon()
 //rotateZ(mouseX/100.f);
 //scale(.5,1,1);
   surface.sphereDetail(73);
-  surface.sphere(height/3.f);
+  surface.sphere(surface.height*sphereRadMultiplier);
+ 
 //  fill(255);
 //  renderMoonGeo();
 }
@@ -18,7 +23,7 @@ void renderMoonGeo()
   surface.shininess(.2);
   int vertDivs = 100;
   int horzDivs = 250;
-  float rad = height/3.f;
+  float rad = surface.height/3.f;
   surface.fill(255);
   for(int i = 0; i < vertDivs; i++)
   {

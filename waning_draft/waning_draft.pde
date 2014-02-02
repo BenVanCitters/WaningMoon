@@ -7,9 +7,9 @@ void setup()
 {
   size(screenWidth,screenHeight, P3D);
   initLPD8();
-  surface = createGraphics(height, width, P3D);
+  surface = createGraphics(height, height, P3D);
   
-  initFireMoon();
+  initFireCircle();
 }
 
 void draw()
@@ -20,8 +20,7 @@ void draw()
   surface.noStroke();
   
   surface.pushMatrix();
-  surface.translate(surface.width/2,
-                    surface.height/2);
+  
   switch(gCurrentGraphicMode)
   {
     case NO_GRAPHIC_MODE:
@@ -33,7 +32,7 @@ void draw()
       renderBlueMoon();
       break;
     case FIRE_MODE:
-      renderFireMoon();
+      renderFireCircle();
       break;
     case RAIN_MODE:
       break;
@@ -68,7 +67,7 @@ void renderTextureToMain()
   rotateX(gQuadRot[0]);
   rotateY(gQuadRot[1]);
   rotateZ(gQuadRot[2]);
-  scale(gQuadScale*100);
+  scale(gQuadScale);
   noStroke();
   textureMode(NORMALIZED);
 
@@ -77,19 +76,23 @@ void renderTextureToMain()
   // openGL renders ~2fps if that.
   int iCount = 46;//(int)(mouseX*600.f/width);
 //  println("iCount: " + iCount);
-    float p[] = new float[]{0,0};
-  for(int i =0; i < iCount; i++)
+  
+  //draws a normalized square mesh and textures it 
+  // with our 'surface' graphics object
+  float p[] = new float[]{0,0};
+  for(int i =0; i < iCount-1; i++)
   {
     beginShape(TRIANGLE_STRIP);
     texture(surface);
     int jCount = iCount;
     for(int j = 0; j< jCount; j++)
     {
+      //top vertex of strip
       p[0] = j*1.f/(jCount-1);
       p[1] = i*1.f/(iCount-1);
       vertex(p[0]-.5,p[1]-.5,
              p[0],p[1]);
-
+      //bottom vertex of strip
       p[1] = (i+1)*1.f/(iCount-1);
       vertex(p[0]-.5,p[1]-.5,
              p[0],p[1]);        

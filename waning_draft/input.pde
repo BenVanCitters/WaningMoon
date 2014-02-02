@@ -1,10 +1,10 @@
 // http://www.openprocessing.org/visuals/?visualID=6268
 // wrestled into VJ compatible MIDI form by Jay Silence
-
 import themidibus.*;
- boolean debug=false;
+
 // MIDI bus for parameter input via Akai LPD8
 MidiBus myBus;
+boolean debug=false;
 
 void initLPD8()
 {
@@ -89,7 +89,7 @@ float gLRRad = 0.f;
 float gMoonPos[] = new float[]{0.f,0.f,0.f};
 
 float[] gQuadRot = new float[]{0.f,0.f,0.f};
-float gQuadScale = 0.f;
+float gQuadScale = 1.f;
 void controllerChange(int channel, int number, int value) {
   // Receive a controllerChange
   if(debug) {
@@ -131,7 +131,7 @@ void controllerChange(int channel, int number, int value) {
       println("gMoonPos = [" + gMoonPos[0] + "," + gMoonPos[1]+ "," + gMoonPos[2] + "]");
       break;
     case 8: // = K8
-      gQuadScale = value*20.f/128.f;
+      gQuadScale = 1+value*300.f/128.f;
       println("gQuadScale = " + gQuadScale);    
       break;  
 

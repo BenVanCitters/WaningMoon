@@ -1,7 +1,9 @@
 void renderBlueMoon()
 {
+  surface.translate(surface.width/2,
+                    surface.height/2);
   float angle = gMoonPhase;///-mouseX*TWO_PI/width;
-  surface.directionalLight(65,65,100,-sin(angle),0,cos(angle));
+  surface.directionalLight(0,0,255,-sin(angle),0,cos(angle));
   //  if(mouseY > height/2)
 //    fill(0,0,100);
 //  else
@@ -10,7 +12,7 @@ void renderBlueMoon()
 //rotateZ(mouseX/100.f);
 //scale(.5,1,1);
   surface.sphereDetail(73);
-  surface.sphere(height/3.f);
+    surface.sphere(surface.height*sphereRadMultiplier);
 //  renderMoonGeo();
 }
 
