@@ -2,19 +2,24 @@ import processing.opengl.*;
 
 XMLElement xml;
 PGraphics surface;
+
 void setup()
 {
-  size(screenWidth,screenHeight, OPENGL);
+  size(screenWidth,screenHeight, P2D);
   initLPD8();
+  surface = createGraphics(screenHeight, screenHeight, P3D);
 }
 
 void draw()
 {
-  background(100);
-  noStroke();
+  background(0);
+  surface.beginDraw();
+  surface.background(100);
+  surface.noStroke();
   
-  pushMatrix();
-  translate(width/2,height/2);
+  surface.pushMatrix();
+  surface.translate(surface.width/2,
+                    surface.height/2);
   switch(gCurrentGraphicMode)
   {
     case NO_GRAPHIC_MODE:
@@ -23,28 +28,28 @@ void draw()
       renderRedMoon();
       break;
     case BLUE_MOON_MODE:
+      renderBlueMoon();
       break;
     case RAIN_MODE:
       break;
      default: 
   }
+  surface.popMatrix();
+  surface.endDraw();
   
-  
-  popMatrix();
+  image(surface,0,0);
   
   if(debug)
   {
+    noLights();
     fill(0);
     rect(0,0,350,80);
     hint(DISABLE_DEPTH_TEST);
     textSize(22);    
-    String s = "frameRate: " + frameRate;
-    fill(255,0,0);
-    stroke(255);
-    text(s, 10,30);
+    fill(255);
+    text("frameRate: " + frameRate, 10,30);
     hint(ENABLE_DEPTH_TEST);
   }
-//  println("frameRate:" + frameRate);
 }
 
 
